@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Sortbox Planner",
+  "short_name": "Sortbox",
+  "description": "Write a note and Sortbox files it under Uni, Work, Private or Projects with its due date. Week calendar with repeating events.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ECEFF3",
+  "theme_color": "#ECEFF3",
+  "categories": ["productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Calendar", "short_name": "Calendar", "url": "./#calendar", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

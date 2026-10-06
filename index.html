@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sortbox Planner</title>
+<meta name="description" content="Write a note and Sortbox files it under Uni, Work, Private or Projects with its due date, plus a week calendar with repeating events.">
+<meta name="theme-color" content="#ECEFF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1217" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sortbox">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Onest:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1>Sort<span>box</span></h1>
+      <span class="today mono" id="todayLabel"></span>
+    </div>
+    <div class="top-actions">
+    <button class="ghost" id="btnInstall" type="button" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+      Install app
+    </button>
+    <button class="ghost" id="btnSettings" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+      Settings
+    </button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <section class="capture" aria-label="Add a note">
+    <form id="captureForm" autocomplete="off">
+      <div class="note-wrap">
+        <label for="noteInput" class="sr">New note</label>
+        <input id="noteInput" type="text" enterkeyhint="done" placeholder="Write a note… e.g. ISTE 341 exam prep fri 14:00">
+      </div>
+      <button type="submit" class="primary" id="addBtn" disabled>Add</button>
+    </form>
+    <div class="capture-foot">
+      <div class="preview" id="preview" hidden>
+        <button type="button" class="chip kind" id="pvKind" aria-label="Switch between task and event"></button>
+        <label class="chip cat" id="pvCatChip"><span class="dot"></span><span class="sr">Category</span><select id="pvCat"></select></label>
+        <label class="chip" id="pvDateChip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <span class="sr">Due date</span><input type="date" id="pvDate">
+          <button type="button" class="x" id="pvDateClear" aria-label="Remove due date">×</button>
+        </label>
+        <label class="chip" id="pvTimeChip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span class="sr">Time</span><input type="time" id="pvTime">
+        </label>
+        <label class="chip" id="pvEndChip" hidden>
+          <span class="to">to</span><span class="sr">End time</span><input type="time" id="pvEnd">
+        </label>
+        <label class="chip" id="pvRepeatChip" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 014-4h12M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 01-4 4H4"/></svg>
+          <span class="sr">Repeat</span>
+          <select id="pvRepeat"><option value="none">Once</option><option value="daily">Every day</option><option value="weekdays">Weekdays</option><option value="weekly">Weekly</option></select>
+        </label>
+        <span class="pv-title" id="pvTitle"></span>
+      </div>
+      <div class="hints" id="hints">
+        <span>Tasks:</span><code>fri 14:00</code><code>bis 9.10.</code><code>#uni</code>
+        <span>Events:</span><code>every mon wed 10-11:30</code><code>weekdays 9:30-9:45</code>
+      </div>
+    </div>
+  </section>
+
+  <nav class="views" id="views" role="tablist" aria-label="Views"></nav>
+
+  <main id="view" aria-live="polite"></main>
+</div>
+
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden></aside>
+<div class="overlay" id="evOverlay" hidden></div>
+<div class="modal" id="evModal" role="dialog" aria-modal="true" aria-labelledby="evTitle" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+
+<script src="cats.js"></script>
+<script src="parser.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -30,7 +30,6 @@ After the first visit it opens without a connection.
 
 - Notes are saved in that browser on that device. They aren't uploaded anywhere.
 - **Moving notes to another device:** open **Settings → Export backup**, send the file to the other device, then use **Settings → Import backup…** there. Importing adds to what's already on that device and never deletes anything.
-- **Bringing over your list from the Claude version:** import `sortbox-backup-2026-10-06.json`, which is delivered alongside this folder and is not part of it.
 - If you delete the browser's site data for the app's URL, its notes go with it. Export a backup now and then.
 - Each device keeps its own list, so a change on your phone doesn't appear on your laptop. Live sync would need a small backend such as Supabase or Firebase. All saving goes through `putDoc`, `patchDoc` and `deleteDoc` in `app.js`, so those three functions are the place to add it.
 

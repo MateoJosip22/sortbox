@@ -1,6 +1,6 @@
 // Sortbox service worker: lets the app open with no connection.
 // When you change any file, bump VERSION so devices pick up the new files.
-const VERSION = 'sortbox-v1';
+const VERSION = 'sortbox-v2';
 const FONT_CACHE = 'sortbox-fonts';
 const SHELL = [
   './',
